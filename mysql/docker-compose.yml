@@ -1,0 +1,26 @@
+version: '2'
+services:
+  mysql:
+    image: mysql:8.0.19
+    container_name: mysql-test
+    ports:
+      - "3316:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: mysql
+      MYSQL_PASSWORD: mysql
+      MYSQL_DATABASE: mysql
+    volumes:
+      - ./my.cnf:/etc/mysql/conf.d/my.cnf
+    volumes_from:
+      - mysql-volume:rw
+    working_dir: "/var/lib/mysql"
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
+    depends_on:
+      - mysql-volume
+      
+  mysql-volume:
+    image: busybox
+    container_name: mysql-volume
+    volumes:
+      - ./data:/var/lib/mysql
