@@ -1,7 +1,7 @@
 import requests
-import datetime
 import re
-from bs4 import BeautifulSoup 
+from bs4 import BeautifulSoup
+
 
 class Parser:
     """
@@ -17,7 +17,7 @@ class Parser:
         -----
         url : str
             読み込みたいページのurl
-        
+
         return
         -----
         soup : Beautifulsoup.soup
@@ -30,21 +30,26 @@ class Parser:
         # レスポンスの HTML から BeautifulSoup オブジェクトを作る
         soup = BeautifulSoup(res.text, 'html.parser')
         return soup
-        
+
     @staticmethod
     def main():
         page = Parser._getSoupFromURL(Parser.URL)
         result = []
         # データを取得する
-        items = page.find_all("div", {"class":"tabbedBrowse-productListing"})
+        items = page.find_all("div", {"class": "tabbedBrowse-productListing"})
         for item in items:
-            not_striped_name = item.find("h3", {"class":"tabbedBrowse-productListing-title"}).text.strip()
-            name = re.sub("<.*>","",not_striped_name)
-            price = item.find("dd", {"class":"saleprice pricingSummary-details-final-price"}).text
-            processor = item.find("div", {"class": "expandableContent tabbedBrowse-productListing-expandableContent-features expandableContent-is-collapsed"}).find_all("dd")[0].text
-            memory = item.find("div", {"class": "expandableContent tabbedBrowse-productListing-expandableContent-features expandableContent-is-collapsed"}).find_all("dd")[2].text
+            not_striped_name = item.find(
+                "h3", {"class": "tabbedBrowse-productListing-title"}).text.strip()
+            name = re.sub("<.*>", "", not_striped_name)
+            price = item.find(
+                "dd", {"class": "saleprice pricingSummary-details-final-price"}).text
+            processor = item.find("div", {
+                                  "class": "expandableContent tabbedBrowse-productListing-expandableContent-features expandableContent-is-collapsed"}).find_all("dd")[0].text
+            memory = item.find("div", {
+                               "class": "expandableContent tabbedBrowse-productListing-expandableContent-features expandableContent-is-collapsed"}).find_all("dd")[2].text
 
             # データを加工する
-            dic = {"name": name, "price": price, "processor": processor, "memory": memory}
+            dic = {"name": name, "price": price,
+                   "processor": processor, "memory": memory}
             result.append(dic)
         return result

@@ -1,0 +1,52 @@
+version: '3'
+services:
+  # DBサーバのコンテナ
+  mysql:
+    image: mysql:8.0.19
+    container_name: mysql-test
+    ports:
+      - "3316:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: mysql
+      MYSQL_PASSWORD: mysql
+      MYSQL_DATABASE: mysql
+    # 手元のディレクトリとコンテナ中のディレクトリの連結
+    volumes:
+      - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+    working_dir: "/var/lib/mysql"
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
+    depends_on:
+      - mysql-volume
+      
+  # mysqlの内容を保持するためのコンテナらしい
+  mysql-volume:
+    image: busybox
+    container_name: mysql-volume
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+
+  # スクレイピングを行うコンテナ
+  python-scrape:
+    build: ./scrape
+    image: python-scrape
+    container_name: python-crawler
+    working_dir: /root/src
+    volumes:
+      - ./scrape/src/:/root/src/
+    tty: true
+
+  # Django
+  django:
+    build: ./web
+    container_name: django
+    volumes:
+      - ./web:/code
+    ports:
+      - "8000:8000"
+    command: python manage.py runserver 0.0.0.0:8000
+    depends_on:
+      - mysql
+
+volumes:
+  mysql-volume:
