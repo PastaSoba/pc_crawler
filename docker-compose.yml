@@ -7,10 +7,10 @@ services:
     ports:
       - "3316:3306"
     environment:
+      MYSQL_DATABASE: mydb
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: mysql
       MYSQL_PASSWORD: mysql
-      MYSQL_DATABASE: mysql
     # 手元のディレクトリとコンテナ中のディレクトリの連結
     volumes:
       - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf

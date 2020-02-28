@@ -1,4 +1,4 @@
-FROM python:3.7-alpine
+FROM python:3.7
 
 # 環境変数を設定する
 ENV PYTHONUNBUFFERED 1
