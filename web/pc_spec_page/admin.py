@@ -1,4 +1,4 @@
 from django.contrib import admin
-from .models import PC_SPEC
+from .models import PcSpecs
 
-admin.site.register(PC_SPEC)
+admin.site.register(PcSpecs)
