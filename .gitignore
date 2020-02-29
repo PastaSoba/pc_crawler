@@ -1,3 +1,5 @@
 mysql/data/
 .vscode
 venv/
+web/pc_spec_site/__pycache__/
+web/pc_spec_page/__pycache__/
