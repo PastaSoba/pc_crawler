@@ -31,6 +31,7 @@ services:
     build: ./scrape
     image: python-scrape
     container_name: python-crawler
+    command: python main.py
     working_dir: /root/src
     volumes:
       - ./scrape/src/:/root/src/
