@@ -2,11 +2,19 @@
 
 sudo docker-compose down
     (確実に前回のゴミを取り除く)
-sudo docker-compose up mysql -d
-    (DjangoのDBのセットアップのため、DBサーバーを先に起動)
-    (準備が終わるまでしばらく待つ)
+sudo docker-compose up -d mysql
+    (DBサーバーを先に起動し、クローラー・DjangoのDBセットアップに備える)
+    (DBの準備が終わるまでしばらく待つ、30秒くらい？)
 make makemigrations
 make migrate
     (DjangoのDBをセットアップする)
 sudo docker-compose up -d
     (クローラー、Djangoを起動する)
+
+
+
+
+
+# ファイルを触る権利がない場合
+
+sudo chown pastasoba [filename]
