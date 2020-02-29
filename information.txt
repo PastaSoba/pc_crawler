@@ -1,0 +1,12 @@
+# 起動時
+
+sudo docker-compose down
+    (確実に前回のゴミを取り除く)
+sudo docker-compose up mysql -d
+    (DjangoのDBのセットアップのため、DBサーバーを先に起動)
+    (準備が終わるまでしばらく待つ)
+make makemigrations
+make migrate
+    (DjangoのDBをセットアップする)
+sudo docker-compose up -d
+    (クローラー、Djangoを起動する)
